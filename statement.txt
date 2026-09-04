@@ -1,3 +1,104 @@
 Name: Alya Irdina Binti Kamalizaman
 ID: 48877697
 
+AI Usage Statement – COMP3506 Assignment 1
+
+I used ChatGPT (OpenAI) as a learning, clarification, debugging, and testing aid while completing this assignment.
+I worked through the tasks incrementally and reviewed and understood the suggestions before adapting them into my work.
+
+Task 1
+1. DoublyLinkedListTester
+* Example prompts:
+  * “How to test append?”
+  * “So T can be anything?”
+  * “How to use oracle.nextT()?”
+  * “What do I need to test for hasBugsAppendGetSetRemove?”
+
+* AI output:
+  * Explained how to test list operations using size, isEmpty, return values, element order, and invalid indexes.
+  * Explained generic values, null-safe comparison, and repeated/interleaved testing.
+  * Helped interpret Gradescope failures in tester methods I had written.
+
+2. DynamicArray
+* Example prompts:
+  * “Can I resize inside the constructor?”
+  * “Is this add method correct?”
+  * “How should removeFirst work?”
+  * “How to use middle style instead of Lomuto style?”
+
+* AI output:
+  * Explained logical size versus capacity, resizing and amortised O(1) append.
+  * Explained shifting elements for insertion/removal and correct index bounds.
+  * Explained Quick Sort, pivot selection, and expected O(n log n) behaviour.
+
+
+Task 2
+1. Problem 1 – Sum Odd Numbers
+* Example prompts:
+  * “why need to subtract?”
+  * “what is the time cost for the while current <= max do line?”
+
+* AI output:
+  * Explained why iterating through the entire min-to-max range can be inefficient.
+  * Explained using the mathematical sum of odd numbers and subtracting values already present.
+
+2. Problem 2 – Minimum XOR Pair
+* Example prompts:
+  * “so i need to sort the list first then do the xor operation?”
+  * “What are adjacent values?”
+  * “Why adjacent values give the minimum XOR value instead of non-adjacent values?”
+
+* AI output:
+  * Explained why the minimum XOR pair can be found by checking adjacent elements after sorting.
+  * Helped identify issues such as incorrect initialisation and out-of-bounds indexing.
+
+3. Problem 3 – Stop Stalling
+* Example prompts:
+  * “do I need to count the interval that has the most overlap?”
+  * “what do u mean by scan them with 2 pointers?”
+
+* AI output:
+  * Explained the two-pointer approach using separately sorted start and end arrays.
+  * Explained how to track active intervals and handle closed interval boundaries.
+
+4. Problem 4 – Rival Dealer Revealer / ProcessedPoints
+* Example prompts:
+  * “will the query return range or return the num of points?”
+  * “can u explain again why binary search?”
+
+* AI output:
+  * Explained preprocessing the points by sorting them.
+  * Explained lower-bound and upper-bound binary searches to count points within [x-r, x+r].
+
+Task 3 – GenomeEditor
+1. Data Structure Selection
+* Example prompts:
+  * “what are the options of data structure i can use?”
+  * “should i make this as linkedlist?”
+  * “balanced vs unbalanced binary tree?”
+
+* AI output:
+  * Compared arrays, linked lists, and tree-based structures.
+  * Explained why an approximately balanced implicit treap could satisfy the required performance constraints.
+
+2. Treap Concepts
+* Example prompts:
+  * Questions about subtree lengths, priorities, split, merge, insertion, deletion, mutation and substring traversal.
+
+* AI output:
+  * Explained how subtree lengths support indexed navigation.
+  * Explained treap priorities and split/merge operations.
+  * Explained how these operations can support expected O(log n) indexed modifications.
+
+3. Debugging and Testing
+* AI output:
+  * Helped identify issues involving subtree-length updates, traversal and boundary conditions.
+  * Suggested correctness, stress and performance tests.
+  * Assisted with some Javadoc wording.
+
+I did not use ChatGPT to generate the entire assignment at once. I used it interactively while developing and testing
+my own work. I reviewed and understood the AI explanations and examples before adapting them, and I tested my final
+implementation myself.
+
+Tool used: ChatGPT by OpenAI
+Accessed: September 2026

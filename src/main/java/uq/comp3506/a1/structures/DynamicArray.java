@@ -28,10 +28,47 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      */
     private T[] data;
 
+    private void resize() {
+        int newCapacity;
+        if (data.length == 0) {
+            newCapacity = 1;
+        } else {
+            newCapacity = data.length * 2;
+        }
+
+        T[] newData = (T[]) new Comparable[newCapacity];
+
+        System.arraycopy(data, 0, newData, 0, size);
+
+        data = newData;
+
+    }
+
+    /**
+     * Checks whether two values are equal, including when one or both values are null.
+     *
+     * @param a the first value to compare
+     * @param b the second value to compare
+     * @return {@code true} if both values are equal or both are {@code null};
+     *         {@code false} otherwise
+     */
+    private boolean equals(T a, T b) {
+        if (a == null && b == null) {
+            return true;
+        }
+
+        if (a == null || b == null) {
+            return false;
+        }
+        return a.equals(b);
+    }
+
     /**
      * Constructs an empty Dynamic Array
      */
     public DynamicArray() {
+        this.data = (T[])new Comparable[capacity];
+        this.size = 0;
         // XXX todo
         // Confused about how to resize? Check the Ed lessons...
     }
@@ -39,13 +76,13 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
     // See ListInterface
     @Override
     public int size() {
-        return -1;
+        return size;
     }
 
     // See ListInterface
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /**
@@ -55,7 +92,7 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      * testing it explicitly.
      */
     public boolean isFull() {
-        return false;
+        return size == data.length;
     }
 
     /**
@@ -64,7 +101,7 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      * be testing it explicitly.
      */
     public int getCapacity() {
-        return -1;
+        return data.length;
     }
 
     /**
@@ -76,9 +113,15 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      */
     @Override
     public boolean append(T element) {
+        if (size == data.length) {
+            resize();
+        }
+        data[size] = element;
+        size += 1;
 
-        return false;
+        return true;
     }
+
 
     /**
      * Add an element to the beginning of the array. Returns true if successful,
@@ -88,8 +131,16 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      */
     @Override
     public boolean prepend(T element) {
+        if (size == data.length) {
+            resize();
+        }
 
-        return false;
+        System.arraycopy(data, 0, data, 1, size);
+
+        data[0] = element;
+        size++;
+
+        return true;
     }
 
     /**
@@ -104,8 +155,20 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      */
     @Override
     public boolean add(int ix, T element) {
+        if (ix < 0 || ix > size) {
+            throw new IndexOutOfBoundsException();
+        }
 
-        return false;
+        if (size == data.length) {
+            resize();
+        }
+
+        System.arraycopy(data, ix, data, ix + 1, size - ix);
+
+        data[ix] = element;
+        size += 1;
+
+        return true;
     }
 
     /**
@@ -115,8 +178,10 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      */
     @Override
     public T get(int ix) {
-
-        return null;
+        if (ix < 0 || ix >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        return data[ix];
     }
 
     /**
@@ -126,8 +191,12 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      */
     @Override
     public T set(int ix, T element) {
-
-        return null;
+        if (ix < 0 || ix >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        T oldValue = data[ix];
+        data[ix] = element;
+        return oldValue;
     }
 
     /**
@@ -137,8 +206,15 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      */
     @Override
     public T remove(int ix) {
+        if (ix < 0 || ix >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        final T value = data[ix];
+        System.arraycopy(data, ix + 1, data, ix, size - ix - 1);
+        size -= 1;
+        data[size] = null;
 
-        return null;
+        return value;
     }
 
     /**
@@ -149,12 +225,31 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      */
     @Override
     public boolean removeFirst(T t) {
+        int ix = -1;
+        for (int i = 0; i < size; i++) {
+            if (equals(data[i], t)) {
+                ix = i;
+                break;
+            }
+        }
 
-        return false;
+        if (ix < 0) {
+            return false;
+        }
+
+        System.arraycopy(data, ix + 1, data, ix, size - ix - 1);
+
+        size -= 1;
+        data[size] = null;
+        return true;
     }
 
     @Override
     public void clear() {
+        for (int i = 0; i < size; i++) {
+            data[i] = null;
+        }
+        size = 0;
 
     }
 
@@ -175,6 +270,43 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      * like: if (data[i].compareTo(data[j]) < 0) { // data[i] < data[j] }
      */
     public void sort() {
+        if (size > 1) {
+            quickSort(0, size - 1);
+        }
 
     }
+
+    private void quickSort(int low, int high) {
+        int i = low;
+        int j = high;
+        T pivot = data[(low + high) / 2];
+
+        while (i <= j) {
+            while (data[i].compareTo(pivot) < 0) {
+                i++;
+            }
+
+            while (data[j].compareTo(pivot) > 0) {
+                j--;
+            }
+
+            if (i <= j) {
+                T temp = data[i];
+                data[i] = data[j];
+                data[j] = temp;
+
+                i++;
+                j--;
+            }
+        }
+
+        if (low < j) {
+            quickSort(low, j);
+        }
+        if (i < high) {
+            quickSort(i, high);
+        }
+    }
+
+
 }

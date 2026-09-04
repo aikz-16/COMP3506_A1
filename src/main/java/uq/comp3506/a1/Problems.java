@@ -24,24 +24,28 @@ public class Problems {
      *       {@code 1,000,000,000}.</li>
      * </ul>
      */
-    public static long sumOddNumbers(long[] L) {
-        long min = L[0];
-        long max = L[0];
+    public static long sumOddNumbers(long[] numbers) {
+        long min = numbers[0];
+        long max = numbers[0];
         long existingOddSums = 0;
 
-        for (int i = 1; i < L.length; i++){
-            if (L[i] < min){
-                min = L[i];
-            } else if (L[i] > max){
-                max = L[i];
+        for (int i = 0; i < numbers.length; i++) {
+            if (numbers[i] < min) {
+                min = numbers[i];
+            } else if (numbers[i] > max) {
+                max = numbers[i];
             }
-            if (L[i] % 2 != 0){
-                existingOddSums += L[i];
+            if (numbers[i] % 2 != 0) {
+                existingOddSums += numbers[i];
             }
         }
 
-        long numOfOdds = (max + 1) / 2;
-        long sumOfOdds = numOfOdds * numOfOdds;
+        long numOfOddsMax = (max + 1) / 2;
+        long sumOfOddsMax = numOfOddsMax * numOfOddsMax;
+        long numOfOddsMin = min / 2;
+        long sumOfOddsMin = numOfOddsMin * numOfOddsMin;
+
+        long sumOfOdds = sumOfOddsMax - sumOfOddsMin;
 
         return sumOfOdds - existingOddSums;
     }
@@ -56,22 +60,22 @@ public class Problems {
      *   <li>Welcome to COMP3506: {@code n = 1,000,000} numbers.</li>
      * </ul>
      */
-    public static XorPair xor(long[] L) {
-        Arrays.sort(L);
-        long smallest_XOR = L[0] ^ L[1];
-        long x = L[0];
-        long y = L[1];
+    public static XorPair xor(long[] numbers) {
+        Arrays.sort(numbers);
+        long smallestXor = numbers[0] ^ numbers[1];
+        long x = numbers[0];
+        long y = numbers[1];
 
-        for (int i = 0; i < L.length - 1; i++){
-            long XOR = L[i] ^ L[i + 1];
-            if (XOR < smallest_XOR){
-                smallest_XOR = XOR;
-                x = L[i];
-                y = L[i + 1];
+        for (int i = 0; i < numbers.length - 1; i++) {
+            long xor = numbers[i] ^ numbers[i + 1];
+            if (xor < smallestXor) {
+                smallestXor = xor;
+                x = numbers[i];
+                y = numbers[i + 1];
             }
         }
 
-        return new XorPair(smallest_XOR, x, y);
+        return new XorPair(smallestXor, x, y);
     }
     
     /**
@@ -85,15 +89,15 @@ public class Problems {
      * </ul>
      */
     public static long stalls(Interval[] intervals) {
-        long active_vendors = 0;
-        long max_active_vendors = 0;
+        long activeVendors = 0;
+        long maxActiveVendors = 0;
         int n = intervals.length;
         long[] starts = new long[n];
         long[] ends = new long[n];
         int i = 0;
         int j = 0;
 
-        for (int k = 0; k < n; k++){
+        for (int k = 0; k < n; k++) {
             starts[k] = intervals[k].start();
             ends[k] = intervals[k].end();
         }
@@ -101,20 +105,20 @@ public class Problems {
         Arrays.sort(starts);
         Arrays.sort(ends);
 
-        while (i < n && j < n){
-            if (starts[i] <= ends[j]){
-                active_vendors++;
+        while (i < n && j < n) {
+            if (starts[i] <= ends[j]) {
+                activeVendors++;
                 i++;
-                if (active_vendors > max_active_vendors){
-                    max_active_vendors = active_vendors;
+                if (activeVendors > maxActiveVendors) {
+                    maxActiveVendors = activeVendors;
                 }
             } else {
-                active_vendors--;
+                activeVendors--;
                 j++;
             }
 
         }
-        return max_active_vendors;
+        return maxActiveVendors;
     }
 
     /**
